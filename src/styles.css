@@ -16,7 +16,8 @@ body {
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
 }
 
@@ -120,6 +121,36 @@ textarea {
   background: #1f2937;
 }
 
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.button-secondary,
+.button-danger {
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  background: #fff;
+  color: #334155;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.button-secondary:hover {
+  background: #f8fafc;
+}
+
+.button-danger {
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+.button-danger:hover {
+  background: #fef2f2;
+}
+
 .section-heading {
   display: flex;
   justify-content: space-between;
@@ -131,6 +162,31 @@ textarea {
 .section-heading span {
   color: #64748b;
   font-size: 0.95rem;
+}
+
+.filter-row {
+  margin-bottom: 1rem;
+}
+
+.filter-control {
+  display: grid;
+  gap: 0.45rem;
+  font-weight: 600;
+}
+
+.filter-control select {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  background: #fff;
+  color: #0f172a;
+}
+
+.filter-control select:focus {
+  outline: 2px solid #818cf8;
+  outline-offset: 2px;
+  border-color: #818cf8;
 }
 
 .empty-state {
@@ -165,7 +221,12 @@ textarea {
   margin-bottom: 0.75rem;
 }
 
-.prompt-card-header span {
+.prompt-card-title {
+  min-width: 0;
+}
+
+.prompt-card-title span {
+  display: inline-flex;
   flex-shrink: 0;
   background: #e0e7ff;
   color: #3730a3;
@@ -173,6 +234,13 @@ textarea {
   padding: 0.3rem 0.7rem;
   font-size: 0.85rem;
   font-weight: 700;
+}
+
+.prompt-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .prompt-card p {
@@ -188,5 +256,14 @@ textarea {
 
   .layout {
     grid-template-columns: 1fr;
+  }
+
+  .prompt-card-header {
+    flex-direction: column;
+  }
+
+  .prompt-card-actions {
+    width: 100%;
+    justify-content: flex-start;
   }
 }

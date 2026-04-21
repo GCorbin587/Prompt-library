@@ -11,6 +11,8 @@ const emptyForm = {
 function App() {
   const [form, setForm] = useState(emptyForm);
   const [prompts, setPrompts] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+  const [selectedTag, setSelectedTag] = useState('All');
 
   useEffect(() => {
     const savedPrompts = localStorage.getItem(STORAGE_KEY);
@@ -51,20 +53,66 @@ function App() {
       return;
     }
 
-    setPrompts((currentPrompts) => [
-      {
-        id: crypto.randomUUID(),
-        title,
-        text,
-        category,
-      },
-      ...currentPrompts,
-    ]);
+    if (editingId) {
+      setPrompts((currentPrompts) =>
+        currentPrompts.map((prompt) =>
+          prompt.id === editingId
+            ? {
+                ...prompt,
+                title,
+                text,
+                category,
+              }
+            : prompt
+        )
+      );
+      setEditingId(null);
+    } else {
+      setPrompts((currentPrompts) => [
+        {
+          id: crypto.randomUUID(),
+          title,
+          text,
+          category,
+        },
+        ...currentPrompts,
+      ]);
+    }
 
     setForm(emptyForm);
   }
 
+  function handleEdit(prompt) {
+    setForm({
+      title: prompt.title,
+      text: prompt.text,
+      category: prompt.category,
+    });
+    setEditingId(prompt.id);
+  }
+
+  function handleDelete(promptId) {
+    setPrompts((currentPrompts) =>
+      currentPrompts.filter((prompt) => prompt.id !== promptId)
+    );
+
+    if (editingId === promptId) {
+      setEditingId(null);
+      setForm(emptyForm);
+    }
+  }
+
+  function handleCancelEdit() {
+    setEditingId(null);
+    setForm(emptyForm);
+  }
+
   const safePrompts = Array.isArray(prompts) ? prompts : [];
+  const availableTags = ['All', ...new Set(safePrompts.map((prompt) => prompt.category))];
+  const filteredPrompts =
+    selectedTag === 'All'
+      ? safePrompts
+      : safePrompts.filter((prompt) => prompt.category === selectedTag);
 
   return (
     <div className="app-shell">
@@ -79,7 +127,7 @@ function App() {
 
         <main className="layout">
           <section className="panel">
-            <h2>Add Prompt</h2>
+            <h2>{editingId ? 'Edit Prompt' : 'Add Prompt'}</h2>
             <form className="prompt-form" onSubmit={handleSubmit}>
               <label>
                 Title
@@ -114,7 +162,20 @@ function App() {
                 />
               </label>
 
-              <button type="submit">Save Prompt</button>
+              <div className="form-actions">
+                <button type="submit">
+                  {editingId ? 'Update Prompt' : 'Save Prompt'}
+                </button>
+                {editingId ? (
+                  <button
+                    className="button-secondary"
+                    type="button"
+                    onClick={handleCancelEdit}
+                  >
+                    Cancel
+                  </button>
+                ) : null}
+              </div>
             </form>
           </section>
 
@@ -130,17 +191,60 @@ function App() {
                 <p>Add one with the form to get started.</p>
               </div>
             ) : (
-              <div className="prompt-list">
-                {safePrompts.map((prompt) => (
-                  <article className="prompt-card" key={prompt.id}>
-                    <div className="prompt-card-header">
-                      <h3>{prompt.title}</h3>
-                      <span>{prompt.category}</span>
-                    </div>
-                    <p>{prompt.text}</p>
-                  </article>
-                ))}
-              </div>
+              <>
+                <div className="filter-row">
+                  <label className="filter-control">
+                    Filter by tag
+                    <select
+                      value={selectedTag}
+                      onChange={(event) => setSelectedTag(event.target.value)}
+                    >
+                      {availableTags.map((tag) => (
+                        <option key={tag} value={tag}>
+                          {tag}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+
+                {filteredPrompts.length === 0 ? (
+                  <div className="empty-state">
+                    <p>No prompts match this tag.</p>
+                    <p>Choose another tag to see more prompts.</p>
+                  </div>
+                ) : (
+                  <div className="prompt-list">
+                    {filteredPrompts.map((prompt) => (
+                      <article className="prompt-card" key={prompt.id}>
+                        <div className="prompt-card-header">
+                          <div className="prompt-card-title">
+                            <h3>{prompt.title}</h3>
+                            <span>{prompt.category}</span>
+                          </div>
+                          <div className="prompt-card-actions">
+                            <button
+                              className="button-secondary"
+                              type="button"
+                              onClick={() => handleEdit(prompt)}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              className="button-danger"
+                              type="button"
+                              onClick={() => handleDelete(prompt.id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                        <p>{prompt.text}</p>
+                      </article>
+                    ))}
+                  </div>
+                )}
+              </>
             )}
           </section>
         </main>
