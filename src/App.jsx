@@ -34,6 +34,16 @@ function App() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(prompts));
   }, [prompts]);
 
+  useEffect(() => {
+    const categories = new Set(
+      (Array.isArray(prompts) ? prompts : []).map((prompt) => prompt.category)
+    );
+
+    if (selectedTag !== 'All' && !categories.has(selectedTag)) {
+      setSelectedTag('All');
+    }
+  }, [prompts, selectedTag]);
+
   function handleChange(event) {
     const { name, value } = event.target;
     setForm((currentForm) => ({
