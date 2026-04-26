@@ -59,6 +59,115 @@ select {
   color: #475569;
 }
 
+.account-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.account-bar span {
+  min-width: 0;
+  color: #475569;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.dashboard {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.stat {
+  min-height: 7rem;
+  display: grid;
+  align-content: space-between;
+  background: #fff;
+  border: 1px solid #dbeafe;
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+}
+
+.stat span {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.stat strong {
+  color: #0f172a;
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.top-prompts-panel {
+  padding-bottom: 1rem;
+}
+
+.top-prompts-list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.top-prompt {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 0.8rem;
+  background: #fff;
+}
+
+.rank {
+  display: inline-grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 999px;
+  background: #111827;
+  color: #fff;
+  font-weight: 800;
+}
+
+.top-prompt-content {
+  min-width: 0;
+}
+
+.top-prompt h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #0f172a;
+  overflow-wrap: anywhere;
+}
+
+.top-prompt p {
+  margin: 0.15rem 0 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.top-prompt strong {
+  min-width: 3.5rem;
+  color: #334155;
+  text-align: right;
+}
+
 .layout {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
@@ -72,6 +181,18 @@ select {
   padding: 1.25rem;
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
   backdrop-filter: blur(8px);
+}
+
+.auth-panel {
+  max-width: 32rem;
+  margin: 8vh auto 0;
+}
+
+.auth-panel h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 2rem;
+  line-height: 1.1;
 }
 
 .panel h2,
@@ -100,6 +221,13 @@ select {
   color: #0f172a;
 }
 
+button:disabled,
+input:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .prompt-form input:focus,
 .prompt-form textarea:focus {
   outline: 2px solid #818cf8;
@@ -125,6 +253,15 @@ select {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+.error-banner {
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  background: #fef2f2;
+  color: #991b1b;
+  font-weight: 700;
 }
 
 .button-secondary,
@@ -243,6 +380,13 @@ select {
   justify-content: flex-end;
 }
 
+.usage-line {
+  margin-bottom: 0.6rem;
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
 .prompt-card p {
   margin: 0;
   white-space: pre-wrap;
@@ -258,6 +402,22 @@ select {
     grid-template-columns: 1fr;
   }
 
+  .stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .top-prompt {
+    grid-template-columns: 2rem minmax(0, 1fr);
+  }
+
+  .top-prompt strong {
+    text-align: left;
+  }
+
+  .top-prompt .button-secondary {
+    justify-self: start;
+  }
+
   .prompt-card-header {
     flex-direction: column;
   }
@@ -265,5 +425,10 @@ select {
   .prompt-card-actions {
     width: 100%;
     justify-content: flex-start;
+  }
+
+  .account-bar {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
