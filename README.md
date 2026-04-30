@@ -68,7 +68,7 @@ After Vercel creates the production URL, add it to Supabase Auth:
 Record the production URL here after the first successful deployment:
 
 ```text
-Production URL: pending first Vercel deployment
+Production URL: https://prompt-library-nine-rho.vercel.app
 ```
 
 Before sharing the public URL, smoke test the deployed app:
